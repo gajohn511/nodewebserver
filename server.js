@@ -1,0 +1,57 @@
+const express = require("express");
+const hbs = require("hbs");
+const fs = require("fs");
+
+var app = express();
+hbs.registerPartials(__dirname + "/views/partials");
+app.set("view engine", "hbs");
+app.use(express.static(__dirname + "/public"));
+
+app.use((req, res, next) => {
+  var now = new Date().toString();
+  var log = `${now}: ${req.method} ${req.url}`;
+
+  console.log(log);
+  fs.appendFile("server.log", log + "\n", err => {
+    if (err) {
+      console.log("Unable to append to server.log file");
+    }
+  });
+  next();
+});
+
+app.use((req, res, next) => {
+  res.render("maintenance.hbs");
+});
+
+hbs.registerHelper("getyear", () => {
+  return new Date().getFullYear();
+});
+
+hbs.registerHelper("scream", txt => {
+  //   return txt.toUpperCase();
+  return String(txt).toUpperCase();
+});
+
+app.get("/", (req, res) => {
+  //   res.send("hello express!");
+  //   res.send({
+  //     name: "John garzon",
+  //     likes: ["ice cream", "pussy"]
+  //   });
+
+  res.render("home.hbs", {
+    title: "Homepage",
+    welcome: "Hello... User"
+  });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about.hbs", {
+    title: "About Page title yoyo"
+  });
+});
+
+app.listen(3000, undefined, undefined, () => {
+  console.log("Listening on port 3000");
+});
