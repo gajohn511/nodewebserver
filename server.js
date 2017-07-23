@@ -6,7 +6,11 @@ const port = process.env.PORT || 3000;
 var app = express();
 hbs.registerPartials(__dirname + "/views/partials");
 app.set("view engine", "hbs");
+
 app.use(express.static(__dirname + "/public"));
+
+app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
+app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css")); // redirect CSS bootstrap
 
 app.use((req, res, next) => {
   var now = new Date().toString();
@@ -21,18 +25,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.render("maintenance.hbs");
-});
+// app.use((req, res, next) => {
+//   res.render("maintenance.hbs");
+// });
 
 hbs.registerHelper("getyear", () => {
   return new Date().getFullYear();
 });
 
-hbs.registerHelper("scream", txt => {
-  //   return txt.toUpperCase();
-  return String(txt).toUpperCase();
-});
+// hbs.registerHelper("scream", txt => {
+//   //   return txt.toUpperCase();
+//   return String(txt).toUpperCase();
+// });
 
 app.get("/", (req, res) => {
   //   res.send("hello express!");

@@ -3,12 +3,29 @@
 <head>
     <title>Home Page</title>
     <meta charset="utf-8">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 </head>
 <body>
 {{> header}}
 
-<p>{{scream welcome}}</p>
+<div id="mo">
+</div>
 
-{{> footer}}
+
+{{!-- <p>{{scream welcome}}</p>
+
+{{> footer}} --}}
+
 </body>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+    //$('#mo').html("hello world!");
+});
+</script>
+
 </html>
