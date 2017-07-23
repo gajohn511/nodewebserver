@@ -48,15 +48,15 @@ app.get("/", (req, res) => {
   res.render("home.hbs", {
     title: "Homepage",
     welcome: "Hello... User",
-    day: new Date().toLocaleString("en-us", {  weekday: "long" })
+    day: new Date().toLocaleString("en-us", { weekday: "long" })
   });
 });
 
-app.get("/about", (req, res) => {
-  res.render("about.hbs", {
-    title: "About Page title yoyo"
-  });
-});
+// app.get("/about", (req, res) => {
+//   res.render("about.hbs", {
+//     title: "About Page title yoyo"
+//   });
+// });
 
 app.listen(port, undefined, undefined, () => {
   console.log(`Listening on port ${port}`);
