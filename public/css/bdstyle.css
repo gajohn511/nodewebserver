@@ -9,3 +9,12 @@
     bottom: 0;
     width: 100%;
 }
+
+p.sans {
+    font-family: Helvetica, sans-serif;
+    color: #4d4d4d;
+    margin: 0 0 29px 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.55556;
+}

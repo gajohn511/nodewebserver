@@ -47,7 +47,8 @@ app.get("/", (req, res) => {
 
   res.render("home.hbs", {
     title: "Homepage",
-    welcome: "Hello... User"
+    welcome: "Hello... User",
+    day: new Date().toLocaleString("en-us", {  weekday: "long" })
   });
 });
 
