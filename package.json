@@ -10,8 +10,10 @@
   "author": "johnny",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "hbs": "^4.0.1",
-    "jsdom": "^11.1.0"
+    "jsdom": "^11.1.0",
+    "mongodb": "^2.2.30"
   }
 }
