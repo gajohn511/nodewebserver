@@ -1,7 +1,8 @@
 const express = require("express");
 const hbs = require("hbs");
 const fs = require("fs");
-const db = require("./server/db");
+const { db } = require("./server/db");
+var bodyParser = require("body-parser");
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -13,6 +14,7 @@ app.use(express.static(__dirname + "/public"));
 app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
 app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css")); // redirect CSS bootstrap
 
+app.use(bodyParser.json());
 app.use((req, res, next) => {
   var now = new Date().toString();
   var log = `${now}: ${req.method} ${req.url}`;
@@ -38,6 +40,12 @@ hbs.registerHelper("getyear", () => {
 //   //   return txt.toUpperCase();
 //   return String(txt).toUpperCase();
 // });
+
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+  console.log("ERROR: " + reason);
+  res.status(code || 500).json({ error: message });
+}
 
 app.get("/", (req, res) => {
   //   res.send("hello express!");
