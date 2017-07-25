@@ -3,11 +3,19 @@ const hbs = require("hbs");
 const fs = require("fs");
 const { db } = require("./server/db");
 var bodyParser = require("body-parser");
+var journal = require("./server/journal").router;
 
 const port = process.env.PORT || 3000;
 var app = express();
 hbs.registerPartials(__dirname + "/views/partials");
 app.set("view engine", "hbs");
+
+/* Forbid access to /help.html */
+app.all("/help.html", (req, res, next) => {
+  res.status(403).send({
+    message: "Access Forbidden"
+  });
+});
 
 app.use(express.static(__dirname + "/public"));
 
@@ -60,6 +68,8 @@ app.get("/", (req, res) => {
     day: new Date().toLocaleString("en-us", { weekday: "long" })
   });
 });
+
+app.use("/jl", journal);
 
 // app.get("/about", (req, res) => {
 //   res.render("about.hbs", {
