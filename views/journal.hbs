@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>journal app</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{> head}}
+</head>
+<body>
+{{> header}}
+
+<div class="container">
+    <div class="page-header">
+        <h1><samp>i</samp> am a journal</h1>
+        <small> 
+            <samp><kbd>instructions</kbd> submit a journal entry in the box provided, it will be saved to the database.
+        </small>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row wt">
+        <div class="col-md-6">
+            <div class="input-group">                
+                <input type="text" class="form-control" placeholder="enter your journal entry here" id="inp">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="isend"><samp>iSend</samp></button>
+                </span>                
+            </div>
+            <span id="helpBlock" class="help-block">
+                tell me about your day...
+            </span>            
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="list-group">
+        <a class="list-group-item">
+            <h3 class="list-group-item-heading">
+                this is a test <small>this is another test</small>
+            </h3>
+            <p class="list-group-item-text">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+        </a>
+    </div>
+</div>
+
+{{!-- {{ <p>{{scream welcome}}</p> --}}
+
+{{> footer}}
+
+</body>
+
+<script type="text/javascript">
+
+// 
+
+$( document ).ready(function() {
+
+    // local vars
+    //var output = $("#output");
+    var inp = $("#inp"),
+    isend = $('#isend');
+
+    //$('#mo').html("hello world!");
+
+    /*
+    $.get("/jl", data => {
+            output.html(JSON.stringify(data,undefined,3));
+    }, "json");
+    */
+
+    /* Events */
+
+    $('#inp').on({
+        focus: function() {
+        var span = $(this).parent(".input-group").next("span#helpBlock");
+        span.css({display: "block"});
+    },
+        blur: function() {
+        var span = $(this).parent(".input-group").next("span#helpBlock");
+        span.css({display: "none"});
+        }    
+    });
+
+
+    isend.click(function() {
+        //console.log(`clicked on ${this.id}`);
+
+        /*
+        $.get("/jl/hello world/", "json").done(data => {
+            console.log(data);
+        });*/
+
+        $.post("/jl", {jtext: "Hello World JText"}, function(data) {
+            console.log(data);
+        });      
+
+    });
+
+
+    /********End of Events**********/
+    
+    
+});
+</script>
+
+</html>

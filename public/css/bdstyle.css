@@ -18,3 +18,20 @@ p.sans {
     font-weight: 400;
     line-height: 1.55556;
 }
+
+/* 
+.input-group {
+    margin-bottom: 20px;
+} */
+
+.wt {
+    margin-bottom: 20px;
+}
+
+/* Bootstrap Overrides */
+
+.help-block {
+    margin-left: 10px;
+    font-size: 90%;
+    display: none;
+}

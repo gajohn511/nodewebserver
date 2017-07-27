@@ -6,9 +6,11 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">
-        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+        {{!-- <span class="glyphicon glyphicon-link" aria-hidden="true"></span> --}}
+        <span class="{{glyph}}" aria-hidden="true"></span>
       </a>
-      <p class="navbar-text">Signed in as admin</p>
+      {{!-- <p class="navbar-text">Signed in as admin</p> --}}
+      <p class="navbar-text">{{welcomeMsg}}</p>
     </div>
   </div>
 </nav>

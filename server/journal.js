@@ -3,8 +3,22 @@ const express = require("express"),
 var { db } = require("./db");
 
 // home page route (http://localhost:8080)
-router.get("/", function(req, res) {
-  res.send("im the journal route");
+router.get("/:text", function(req, res) {
+  // res.status(202).send({ message: "im the journal route" });
+  res.status(202).send(req.params);
+});
+
+router.post("/", (req, res) => {
+  var jtext; // = req.body.jtext;
+  if (!req.body.jtext) {
+    return res.status(404).send({ err: "No valid payload received" });
+  }
+
+  jtext = req.body.jtext;
+  res.send({
+    status: "OK",
+    response: jtext
+  });
 });
 
 // about page route (http://localhost:8080/about)

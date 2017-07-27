@@ -1,8 +1,10 @@
 const express = require("express");
 const hbs = require("hbs");
 const fs = require("fs");
-const { db } = require("./server/db");
 var bodyParser = require("body-parser");
+
+/* Custom Requires */
+const { db } = require("./server/db");
 var journal = require("./server/journal").router;
 
 const port = process.env.PORT || 3000;
@@ -22,7 +24,10 @@ app.use(express.static(__dirname + "/public"));
 app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
 app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css")); // redirect CSS bootstrap
 
+/* Global Middlewares */
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 app.use((req, res, next) => {
   var now = new Date().toString();
   var log = `${now}: ${req.method} ${req.url}`;
@@ -63,9 +68,16 @@ app.get("/", (req, res) => {
   //   });
 
   res.render("home.hbs", {
-    title: "Homepage",
-    welcome: "Hello... User",
+    glyph: "glyphicon glyphicon-link",
+    welcomeMsg: "Signed in as admin",
     day: new Date().toLocaleString("en-us", { weekday: "long" })
+  });
+});
+
+app.get("/journal", (req, res, next) => {
+  res.render("journal.hbs", {
+    glyph: "glyphicon glyphicon-book",
+    welcomeMsg: "a little journal app."
   });
 });
 
