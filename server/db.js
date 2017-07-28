@@ -1,12 +1,13 @@
 //var { MongoClient, ObjectID } = require("mongodb");
 var mongoose = require("mongoose");
 var db;
-var dburl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
+var dburl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/Japp";
 var dboptions = {
   //   server: { reconnectTries: Number.MAX_VALUE }
   useMongoClient: true
 };
 
+mongoose.Promise = global.Promise;
 mongoose.connect(dburl, dboptions, err => {
   if (err) {
     console.log(err);

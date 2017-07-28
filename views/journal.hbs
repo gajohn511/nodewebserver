@@ -60,22 +60,22 @@
 
 <script type="text/javascript">
 
-// 
-
+/* Locals */
+var $inp,
+    $isend;
+    
 $( document ).ready(function() {
 
     // local vars
-    //var output = $("#output");
-    var inp = $("#inp"),
-    isend = $('#isend');
+    $inp = $("#inp"),
+    $isend = $('#isend');
 
-    //$('#mo').html("hello world!");
-
-    /*
-    $.get("/jl", data => {
-            output.html(JSON.stringify(data,undefined,3));
+    
+    $.get("/jl/journals", data => {
+            //output.html(JSON.stringify(data,undefined,3));
+            console.log(data);
     }, "json");
-    */
+    
 
     /* Events */
 
@@ -91,18 +91,19 @@ $( document ).ready(function() {
     });
 
 
-    isend.click(function() {
+    $isend.click(function() {
         //console.log(`clicked on ${this.id}`);
 
-        /*
-        $.get("/jl/hello world/", "json").done(data => {
-            console.log(data);
-        });*/
+        if (!$.trim($inp.val())) {
+            return false;
+        }
 
-        $.post("/jl", {jtext: "Hello World JText"}, function(data) {
+        $.post("/jl", { text: $.trim($inp.val()) }, function(data) {
             console.log(data);
-        });      
-
+        })
+        .fail(err => {
+            console.log(err);
+        });
     });
 
 
