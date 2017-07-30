@@ -1,0 +1,27 @@
+#thelist {
+    max-height: 251px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+img#tree {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.bgimg {
+    position: relative;
+    background-image: url(/img/234.jpg);
+    height: 350px;
+    background-repeat: no-repeat;
+    background-size: 350px 350px;
+    background-position: center;
+    opacity: .05;
+    -webkit-transition: opacity 2s;
+    transition: opacity 2s;
+}
+.bgimg.on {
+    opacity:1;
+}

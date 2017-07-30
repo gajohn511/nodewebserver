@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="stylesheet" href="/css/journal.css">
 {{> head}}
 </head>
 <body>
@@ -39,17 +39,57 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="list-group">
-        <a class="list-group-item">
-            <h3 class="list-group-item-heading">
-                this is a test <small>this is another test</small>
-            </h3>
-            <p class="list-group-item-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
-        </a>
+<div class="container" style="" >
+    <div class="row">
+        <div class="col-md-6"> 
+            <div class="list-group" id="thelist">
+                <a class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        this is a test <small>this is another test</small>
+                    </h3>
+                    <p class="list-group-item-text">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </a>
+                 <a class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        this is a test <small>this is another test</small>
+                    </h3>
+                    <p class="list-group-item-text">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </a>
+                {{!-- <a class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        this is a test <small>this is another test</small>
+                    </h3>
+                    <p class="list-group-item-text">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </a>
+                <a class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        this is a test <small>this is another test</small>
+                    </h3>
+                    <p class="list-group-item-text">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </a>
+                <a class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        this is a test <small>this is another test</small>
+                    </h3>
+                    <p class="list-group-item-text">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </a>  --}}
+            </div>
+        </div>
+        <div class="col-md-6 bgimg"> 
+              {{!-- <img src="/img/vectorstock_5981367-[Converted].jpg" height="330px" id="tree">   --}}
+        </div>
     </div>
+
 </div>
 
 {{!-- {{ <p>{{scream welcome}}</p> --}}
@@ -63,17 +103,25 @@
 /* Locals */
 var $inp,
     $isend;
+
+var $thelist;
+var $footer;
     
 $( document ).ready(function() {
 
     // local vars
     $inp = $("#inp"),
     $isend = $('#isend');
-
+    $thelist = $('#thelist');
+    $footer = $('footer');
     
     $.get("/jl/journals", data => {
             //output.html(JSON.stringify(data,undefined,3));
             console.log(data);
+
+            setTimeout(() => {
+                organizePage();
+            },200);
     }, "json");
     
 
@@ -109,8 +157,42 @@ $( document ).ready(function() {
 
     /********End of Events**********/
     
+
     
 });
+
+var opt = (function () {
+
+    var threshold = 40;
+
+         return {
+            getMax: function(a) {
+                return threshold + (a ? 'px' : 0);
+            }
+        } 
+
+    {{!-- return function() {
+        return threshold + 'px';
+    } --}}
+
+})();
+
+var organizePage = () => {
+
+    var listposition = $thelist.offset().top,
+    fposition = $footer.offset().top;
+
+    /*  
+    if ( Math.abs((listposition + listposition.outerHeight(true)) - fposition) <= opt.getMax() ) {
+        //$footer.css({"position": })
+    }
+    */
+
+    /* Switch Mascot */
+    $('.bgimg').addClass("on");
+
+};
+
 </script>
 
 </html>
