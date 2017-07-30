@@ -43,22 +43,22 @@
     <div class="row">
         <div class="col-md-6"> 
             <div class="list-group" id="thelist">
-                <a class="list-group-item">
+                {{!-- <a class="list-group-item">
                     <h3 class="list-group-item-heading">
-                        this is a test <small>this is another test</small>
+                        July 30, 2017 <small>9:05 AM</small>
                     </h3>
                     <p class="list-group-item-text">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                     </p>
-                </a>
-                 <a class="list-group-item">
+                </a> --}}
+                 {{!-- <a class="list-group-item">
                     <h3 class="list-group-item-heading">
-                        this is a test <small>this is another test</small>
+                        July 28, 2017 <small>4:30 PM</small>
                     </h3>
                     <p class="list-group-item-text">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                     </p>
-                </a>
+                </a> --}}
                 {{!-- <a class="list-group-item">
                     <h3 class="list-group-item-heading">
                         this is a test <small>this is another test</small>
@@ -99,6 +99,7 @@
 </body>
 
 <script type="text/javascript">
+"use strict";
 
 /* Locals */
 var $inp,
@@ -115,9 +116,41 @@ $( document ).ready(function() {
     $thelist = $('#thelist');
     $footer = $('footer');
     
-    $.get("/jl/journals", data => {
-            //output.html(JSON.stringify(data,undefined,3));
-            console.log(data);
+    $.get("/jl/journals", data => {            
+            {{!-- var parse = (item) => {
+                /*
+                    <a class="list-group-item">
+                        <h3 class="list-group-item-heading">
+                            July 30, 2017 <small>9:05 AM</small>
+                        </h3>
+                        <p class="list-group-item-text">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </a>
+                */
+                var $a = $("<a>").addClass("list-group-item"),
+                    $head = $("<h3>").addClass("list-group-item-heading"),
+                    $p = $("<p>").addClass("list-group-item-text"),
+                    $time = $("<small>");
+
+                $head.html(dateFromObjectId(item._id).format('MMMM Do YYYY'));
+                $head.append($time.html(dateFromObjectId(item._id).format('h:mm a')));
+                $p.html(item.text);
+                return $a.append($head).append($p).get(0).outerHTML;
+            }; --}}
+            if (typeof data === "object") {
+
+                var parsed = '';
+                for (var i = 0; i < data.length; i++) {
+                    parsed += opt.parse( data[i] );
+                }
+
+                if(!data.length){
+                    parsed = opt.parse(null, { dummy: true });
+                }
+
+                $thelist.html(parsed);
+            }
 
             setTimeout(() => {
                 organizePage();
@@ -129,12 +162,14 @@ $( document ).ready(function() {
 
     $('#inp').on({
         focus: function() {
-        var span = $(this).parent(".input-group").next("span#helpBlock");
-        span.css({display: "block"});
+        {{!-- var span = $(this).parent(".input-group").next("span#helpBlock");
+        span.css({display: "block"}); --}}
+        $(this).closest(".row.wt").addClass("on");
     },
         blur: function() {
-        var span = $(this).parent(".input-group").next("span#helpBlock");
-        span.css({display: "none"});
+        {{!-- var span = $(this).parent(".input-group").next("span#helpBlock");
+        span.css({display: "none"}); --}}
+        $(this).closest(".row.wt").removeClass("on");
         }    
     });
 
@@ -146,8 +181,16 @@ $( document ).ready(function() {
             return false;
         }
 
-        $.post("/jl", { text: $.trim($inp.val()) }, function(data) {
-            console.log(data);
+        $.post("/jl/journals", { text: $.trim($inp.val()) }, function(data) {
+            $thelist.prepend(opt.parse( data.doc, {active: 1} ));
+            $inp.val(''); // clear text box
+
+             setTimeout(() => {
+                var item = $thelist.find('a:first').removeClass('on');
+                setTimeout(() => {$thelist.find('a:first').removeClass('act');}, 2000);
+            }, 200); 
+
+            {{!-- console.log(data); --}}
         })
         .fail(err => {
             console.log(err);
@@ -168,6 +211,33 @@ var opt = (function () {
          return {
             getMax: function(a) {
                 return threshold + (a ? 'px' : 0);
+            },
+            parse: function(item, obj) {
+                /*
+                    <a class="list-group-item">
+                        <h3 class="list-group-item-heading">
+                            July 30, 2017 <small>9:05 AM</small>
+                        </h3>
+                        <p class="list-group-item-text">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </a>
+                */
+                var _options = $.extend({}, {
+                    active: undefined,
+                    dummy: false
+                }, obj);
+
+                var $a = $("<a>").addClass("list-group-item"),
+                    $head = $("<h3>").addClass("list-group-item-heading"),
+                    $p = $("<p>").addClass("list-group-item-text"),
+                    $time = $("<small>");
+
+                if(_options.active) $a.addClass("act on")
+                $head.html(_options.dummy ? moment().format('MMMM Do YYYY') : dateFromObjectId(item._id).format('MMMM Do YYYY'));
+                $head.append($time.html(_options.dummy ? moment().format('h:mm a') : dateFromObjectId(item._id).format('h:mm a')));
+                $p.html(_options.dummy ? "Hello World!! This is a test journal entry ;)" : item.text);
+                return $a.append($head).append($p).get(0).outerHTML;
             }
         } 
 
@@ -179,18 +249,19 @@ var opt = (function () {
 
 var organizePage = () => {
 
-    var listposition = $thelist.offset().top,
-    fposition = $footer.offset().top;
-
-    /*  
-    if ( Math.abs((listposition + listposition.outerHeight(true)) - fposition) <= opt.getMax() ) {
+    {{!-- var listposition = $thelist.offset().top,
+    fposition = $footer.offset().top; --}}
+      
+    {{!-- if ( Math.abs((listposition + listposition.outerHeight(true)) - fposition) <= opt.getMax() ) {
         //$footer.css({"position": })
-    }
-    */
-
+    } --}}
     /* Switch Mascot */
     $('.bgimg').addClass("on");
 
+};
+
+var dateFromObjectId = function (objectId) {
+	return moment(new Date(parseInt(objectId.substring(0, 8), 16) * 1000));
 };
 
 </script>

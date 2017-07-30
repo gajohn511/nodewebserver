@@ -2,6 +2,21 @@
     max-height: 251px;
     overflow: hidden;
     overflow-y: auto;
+    cursor: default;
+    padding-right: 5px;
+}
+#thelist a.list-group-item {
+    margin-bottom: 10px;
+    max-height: 100px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+#thelist a.list-group-item.act {
+    -webkit-transition: background-color 2s;
+    transition: background-color 2s;    
+}
+#thelist a.list-group-item.act.on {
+    background-color: #eceff1;
 }
 
 img#tree {
@@ -24,4 +39,14 @@ img#tree {
 }
 .bgimg.on {
     opacity:1;
+}
+
+.wt {
+    margin-bottom: 20px;
+}
+.wt.on {
+    margin-bottom: 0;
+}
+.wt.on span.help-block{
+    display: block;
 }

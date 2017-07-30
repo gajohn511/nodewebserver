@@ -12,7 +12,7 @@ var { JModel } = require("./models/journalModel"),
 
 // home page route (http://localhost:8080)
 router.get("/journals", function(req, res) {
-  JModel.find({}).limit(10).exec((error, docs) => {
+  JModel.find({}).limit(10).sort("-_id").exec((error, docs) => {
     if (error) {
       handleError(
         req,
@@ -49,12 +49,12 @@ var mware = (req, res, next) => {
 
 router.use(mware);
 
-router.post("/", (req, res) => {
+router.post("/journals", (req, res) => {
   var text = req.body.text;
   res.send({
     status: "OK",
-    response: text
-    //doc: req.out
+    response: text,
+    doc: req.out
   });
 });
 
