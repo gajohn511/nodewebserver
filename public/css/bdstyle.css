@@ -32,3 +32,9 @@ p.sans {
     font-size: 90%;
     display: none;
 }
+
+
+#mynav {
+    margin-top: 5px;
+    margin-right: 20%;
+}
